@@ -30,9 +30,9 @@ jobs:
         run: npm install
 
       - name: Build Vite project
-        run: npm run build   # make sure package.json has "build": "vite build"
+        run: npx vite build   # Use npx to ensure local Vite runs
 
-      - name: Upload build output
+      - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
           name: build-output
