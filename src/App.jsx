@@ -1223,7 +1223,7 @@ export default function App() {
     return (
       <div className="min-h-screen bg-gradient-to-br from-sky-50 to-white p-6 flex items-center justify-center">
         <div className="max-w-md w-full bg-white shadow rounded-xl p-6">
-          <h1 className="text-2xl font-semibold mb-4">GITHUB COPILOT Practice Exam — Settings</h1>
+          <h1 className="text-2xl font-semibold mb-4">GITHUB ACTION Practice Exam — Settings</h1>
           <p className="mb-4 text-sm text-gray-600">Choose exam duration and start. Your progress will be saved automatically.</p>
           <label className="block mb-2 text-sm font-medium">Select duration</label>
           <select
