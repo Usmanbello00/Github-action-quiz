@@ -1,8 +1,9 @@
-name: Build and deploy Vite React app to GitHub Pages
+name: Build and deploy React app to GitHub Pages - ghas-quiz
 
 on:
   push:
-    branches: ["main"]
+    branches:
+      - main
   workflow_dispatch:
 
 permissions:
@@ -17,26 +18,29 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up Node.js
+      - name: Set up Node.js version
         uses: actions/setup-node@v3
         with:
           node-version: '20.x'
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
-      - name: Build Vite project
-        run: npx vite build   # Use npx to ensure local Vite runs
+      - name: Build app
+        run: npx vite build
 
-      - name: Upload build artifact
+      - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
-          name: build-output
-          path: dist
+          name: react-build
+          path: ./dist
 
   deploy:
     runs-on: ubuntu-latest
@@ -44,12 +48,13 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
+
     steps:
-      - name: Download build artifact
+      - name: Download artifact from build job
         uses: actions/download-artifact@v4
         with:
-          name: build-output
-          path: dist
+          name: react-build
+          path: ./dist
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
@@ -57,7 +62,7 @@ jobs:
       - name: Upload artifact to Pages
         uses: actions/upload-pages-artifact@v3
         with:
-          path: dist
+          path: ./dist
 
       - name: Deploy to GitHub Pages
         id: deployment
